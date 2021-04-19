@@ -16,8 +16,6 @@ from transformers import AdamW, get_linear_schedule_with_warmup
 from dataset import *
 from model import *
 
-
-
 def log_loss(step_record, loss_record):
     if not os.path.exists("../img"):
         os.mkdir("../img")
@@ -52,9 +50,6 @@ def train(args, model, train_dataset):
         ]
     optimizer = AdamW(optimizer_grouped_parameters, lr=args.lr, eps=args.adam_epsilon, correct_bias=False)
     scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=args.warmup_steps, num_training_steps=step_tot)
-
-    # amp training
-    # model, optimizer = amp.initialize(model, optimizer, opt_level="O1")
 
     # distributed training
     if args.local_rank != -1:
